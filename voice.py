@@ -24,7 +24,12 @@ class Voice():
         self._input_file = input_file
         self._time_split = time_split
         self._model = SpeechRecognitionModel(model, device = device)
-        self._split_audio_path = []
+        self._divided_audio_path = [] # a list with the path of the audio divided in N audios
+        
+        self.__split_audio() # split the audio in N audios of self._time_split length
+        
+        self._trasncriptions = model.transcribe(self._divided_audio_path) # make the trasncription of the audio to text
+
 
     def set_SpeechRecognitionModel(self, model: str = 'jonatasgrosman/wav2vec2-large-xlsr-53-english', device: str = 'cpu'):
         """Define the model for the Speech Recognition.
@@ -39,10 +44,18 @@ class Voice():
         #device = "cuda" if torch.cuda.is_available() else "cpu"
         self._model = SpeechRecognitionModel(model, device = device)
 
-
             
-    def audio_to_text():
-        pass
+    def audio_to_text(self) -> str:
+        """
+        Return a string with the transcription of the audio
+
+        Returns:
+        -------
+            str: string with the transcription of the audio
+        """
+        
+        return self._trasncriptions['transcription']
+          
           
     # private methods
     
@@ -70,7 +83,7 @@ class Voice():
         
         for a in range(i+1):
             file_to_save = os.path.join(dir_name, f'{a}.wav')
-            self._split_audio_path.append(file_to_save) 
+            self._divided_audio_path.append(file_to_save) 
             
             
             
