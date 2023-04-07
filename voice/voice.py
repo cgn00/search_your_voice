@@ -56,11 +56,9 @@ class Voice:
             str: string with the transcription of the audio
         """
         
-        transcriptions = self._trasncriptions['transcription']
-        
         full_transcript_text = ''
         
-        for item in transcriptions:
+        for item in self._trasncriptions: # iterate over each transcription
             full_transcript_text += ''.join(item['transcription'])
         
         return full_transcript_text
