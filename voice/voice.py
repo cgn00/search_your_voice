@@ -90,7 +90,8 @@ class Voice:
 
         
         for i,speech in enumerate(stream):
-            sf.write(f'{i}.wav', speech, sample_rate)
+            file_to_save = os.path.join(dir_name, f'{i}.wav')
+            sf.write(file_to_save, speech, sample_rate)
         
         for a in range(i+1):
             file_to_save = os.path.join(dir_name, f'{a}.wav')
