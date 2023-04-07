@@ -30,7 +30,7 @@ class Voice:
         
         self.__split_audio() # split the audio in N audios of self._time_split length
         
-        self._trasncriptions = model.transcribe(self._divided_audio_path) # make the trasncription of the audio to text
+        self._trasncriptions = self._model.transcribe(self._divided_audio_path) # make the trasncription of the audio to text
 
 
     def set_SpeechRecognitionModel(self, model: str = 'jonatasgrosman/wav2vec2-large-xlsr-53-english', device: str = 'cpu'):

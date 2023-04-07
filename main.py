@@ -2,6 +2,7 @@ import logging
 from telegram import InlineKeyboardMarkup,InlineKeyboardButton
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,ConversationHandler,CallbackQueryHandler
 import os
+from voice.voice import Voice
 
 
 # Global
