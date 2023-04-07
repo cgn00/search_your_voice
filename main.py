@@ -22,10 +22,7 @@ def response_handler(text: str) -> str:
     processed: str = text.lower()
     
     if 'hello' in processed:
-        return 'Hello Adriana'
-    
-    if 'te amo' in processed:
-        return 'me too'
+        return 'Hello There'
     
     else:
         return 'Sorry but I do not understand what you wrote...'
