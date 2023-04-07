@@ -1,4 +1,5 @@
 import os
+import datetime
 from huggingsound import SpeechRecognitionModel
 import torch
 import librosa
@@ -54,7 +55,14 @@ class Voice():
             str: string with the transcription of the audio
         """
         
-        return self._trasncriptions['transcription']
+        transcriptions = self._trasncriptions['transcription']
+        
+        full_transcript_text = ''
+        
+        for item in transcriptions:
+            full_transcript_text += ''.join(item['transcription'])
+        
+        return full_transcript_text
           
         
     
@@ -114,6 +122,7 @@ class Voice():
 
         return index
   
+ 
  
 
             
