@@ -56,7 +56,9 @@ class Voice():
         
         return self._trasncriptions['transcription']
           
-          
+        
+    
+      
     # private methods
     
     def __split_audio(self):
@@ -85,5 +87,34 @@ class Voice():
             file_to_save = os.path.join(dir_name, f'{a}.wav')
             self._divided_audio_path.append(file_to_save) 
             
+            
+    def __find_phrase(text: str, phrase: str) -> list[int]:
+        """
+        Search the phrase in the text and if find the phrase return a list with the location in the text
+        If the phrase couldn't be searched return [-1]
+        
+        Parametrs
+        --------
+        text: str 
+            text to search the phrase
+        phrase: str 
+            phrase to search in the text
+
+        """
+        index = []
+        end = len(text) # the length of the text
+        pos = text.find(phrase, 0, end) # search from the first character to te last
+        index.append(pos) # save the possition
+
+        while(pos != -1): # while find the phrase in the text
+            pos = text.find(phrase, pos+1, end) # start the search in the next character of the previous position found
+            
+            if(pos != -1):
+                index.append(pos)
+
+        return index
+  
+ 
+
             
             
