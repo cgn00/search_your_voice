@@ -6,9 +6,19 @@ import soundfile as sf
 
 class Voice():
         
-    def __init__(self) -> None:
+    def __init__(self, model: str = 'jonatasgrosman/wav2vec2-large-xlsr-53-english', device: str = 'cpu') -> None:
+        """
+        The object that handles the speech
+        
+        Args:
+        ----
+            model (str, optional): 
+                The model for the Speech Recognition. Defaults to 'jonatasgrosman/wav2vec2-large-xlsr-53-english'.
+            device (str, optional): 
+                Divice to execute the model: cpu or gpu. Defaults to 'cpu'.
+        """
             
-        self._model = SpeechRecognitionModel("jonatasgrosman/wav2vec2-large-xlsr-53-english", device = device)
+        self._model = SpeechRecognitionModel(model, device = device)
 
         self._split_audio_path = []
 
@@ -17,8 +27,10 @@ class Voice():
 
         Args:
         ----
-            model (str, optional): The model for the Speech Recognition. Defaults to 'jonatasgrosman/wav2vec2-large-xlsr-53-english'.
-            device (str, optional): Divice to execute the model: cpu or gpu. Defaults to 'cpu'.
+            model (str, optional): 
+                The model for the Speech Recognition. Defaults to 'jonatasgrosman/wav2vec2-large-xlsr-53-english'.
+            device (str, optional): 
+                Divice to execute the model: cpu or gpu. Defaults to 'cpu'.
         """
         #device = "cuda" if torch.cuda.is_available() else "cpu"
         self._model = SpeechRecognitionModel(model, device = device)
