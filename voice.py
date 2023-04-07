@@ -5,7 +5,7 @@ import torch
 import librosa
 import soundfile as sf
 
-class Voice():
+class Voice:
         
     def __init__(self, input_file: str = 'audio/audio.wav', time_split: int = 30, model: str = 'jonatasgrosman/wav2vec2-large-xlsr-53-english', device: str = 'cpu') -> None:
         """
@@ -22,6 +22,7 @@ class Voice():
             device (str, optional): 
                 Divice to execute the model: cpu or gpu. Defaults to 'cpu'.
         """
+        
         self._input_file = input_file
         self._time_split = time_split
         self._model = SpeechRecognitionModel(model, device = device)
