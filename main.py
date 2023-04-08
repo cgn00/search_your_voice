@@ -84,15 +84,15 @@ def search_button(update, context):
     return search_word
     
 def search(update, context ):
-    phrase_start_times= aud.search_phrase(update.message.text)
-    update.message.reply_text(str(phrase_start_times))
-    return ConversationHandler.END
+    phrase_start_times= aud.search_phrase(str(update.message.text).lower())
+    update.message.reply_text(str(phrase_start_times),reply_markup=options_markup)
+    return menu
 
 def resume_button(update, context):
     query = update.callback_query
     query.answer()
     query.edit_message_text(
-        'Resume'
+        'Resume',reply_markup=options_markup
     )
     return ConversationHandler.END
 
@@ -101,10 +101,9 @@ def to_text(update, context):
     query.answer()
     text=aud.audio_to_text()
     query.edit_message_text(
-        str(text)
+        str(text),reply_markup=options_markup
     )
-    
-    return ConversationHandler.END
+    return menu
 
 def error(update, context):
     """Log Errors caused by Updates."""
@@ -136,7 +135,7 @@ def main():
                 CallbackQueryHandler(to_text, pattern='to_text'),       
             ],
             search_word:[
-                MessageHandler( Filters.text , save_audio)
+                MessageHandler( Filters.text , search)
             ]
 
         },
