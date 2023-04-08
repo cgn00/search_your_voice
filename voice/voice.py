@@ -78,7 +78,7 @@ class Voice:
             list: the times where begin the phrase if the phrase isn't in the audio return [-1]
         """
         
-        phrase_start_times = '' # -1 means that the phrase couldn't be searched
+        phrase_start_times = [] # -1 means that the phrase couldn't be searched
         number_of_repetitions: int = 0 # the count of the time that the phrase is repeated
         block_time: int = 30 # the time in seconds of each block in transcriptions
         duration = 0 # the initial time of the audio
@@ -89,7 +89,7 @@ class Voice:
             
             temp_start_time = [-1]
             temp_loc = self.__find_phrase(text=text, phrase=phrase_to_search)
-            print(f'The locations of the phrase {phrase_to_search} are: {str(temp_loc)}')
+            #print(f'The locations of the phrase {phrase_to_search} are: {str(temp_loc)}')
 
 
             if temp_loc != [-1]: # if the phrase was found return a lis with the locations else return -1
@@ -98,16 +98,17 @@ class Voice:
 
                 temp_start_time = [datetime.datetime.fromtimestamp(t).strftime('%H.%M:%S.%f') for t in temp_start_time] # convert to H-M-S-ms format 
 
-            print(f'{text} \n amount of words = {len(text.split())}')
+            #print(f'{text} \n amount of words = {len(text.split())}')
             #print(str(block['start_timestamps']))
             #print(f'start_timestamps_length = {len(block["start_timestamps"])}')
-            print(f'The phrase {phrase_to_search} appears in the times: {temp_start_time}')
+            #print(f'The phrase {phrase_to_search} appears in the times: {temp_start_time}')
 
             duration = duration + block_time # increment the begin time of the next block of the transcription
             
             if temp_start_time != [-1]: # if the phrase was found save it
-                phrase_start_times += ''.join(temp_start_time)
-            
+                #phrase_start_times += ''.join(temp_start_time)
+                phrase_start_times.extend(temp_start_time)
+                
         if phrase_start_times:
             return phrase_start_times
         
