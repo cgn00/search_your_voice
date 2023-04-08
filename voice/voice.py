@@ -114,9 +114,10 @@ class Voice:
         
         else:
             return [-1] # the phrase wasn't found in the audio
+    
+    
                 
     # private methods
-    
            
     def __find_phrase(self, text: str, phrase: str) -> list[int]:
         """
@@ -145,9 +146,6 @@ class Voice:
         return index
   
  
- 
-
-    
     def __split_audio(self):
         """
         Split the audio in N audios of self._time_split length
@@ -170,9 +168,6 @@ class Voice:
         for i,speech in enumerate(stream):
             file_to_save = os.path.join(dir_name, f'{i}.wav')
             sf.write(file_to_save, speech, sample_rate)
-        
-        for a in range(i+1):
-            file_to_save = os.path.join(dir_name, f'{a}.wav')
             self._divided_audio_path.append(file_to_save) 
             
      
