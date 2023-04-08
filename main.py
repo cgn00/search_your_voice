@@ -5,11 +5,11 @@ import os
 from voice.voice import Voice
 
 
-# Global
-recive_audio_state,save_audio_state,menu=range(3)
-
+# Global variables
+# Conversations states
+recive_audio_state,save_audio_state,menu,search_word=range(4)
 TOKEN = '6038975530:AAHLkgPEKYvs7Dud83dISYfOn_yF6ZLVZSk'
-
+user_id = []
 # PORT = int(os.environ.get('PORT', 5000))
 
 # Enable logging
@@ -37,7 +37,7 @@ send_markup= InlineKeyboardMarkup(options2)
 def start(update, context):
     """Send a message when the command /start is issued."""
     # userName = update.effective_user['first_name']
-    # user_id = update.effective_user['id']  
+    user_id.append(update.effective_user['id'] )  
     info="Wellcome!!!"
     update.message.reply_text(info, reply_markup=send_markup)
     return recive_audio_state
@@ -57,42 +57,53 @@ def recive_audio(update, context):
 
 def save_voice(update, context):
     print("Save Audio Flag")
-    voice_msg=update.message.voice.get_file().download(custom_path="audio.wav")
-    print("Archivo Guardado \n Comienza la transcripcion \n")
-    # Aqui se llama directamente al metodo de transcripcion en paralelo
+    voice_msg=update.message.voice.get_file().download(custom_path=str(user_id[0])+".wav")
+    print("File Saved \n"
+          " Runing  transcription \n")
+    global aud
+    aud =Voice(voice_msg)
     update.message.reply_text('Recived!!',reply_markup=options_markup)
     return menu
 
 def save_audio(update, context):
     print("Save Audio Flag")
-    voice_msg=update.message.audio.get_file().download(custom_path="audio.wav")
-    print("Archivo Guardado \n Comienza la transcripcion \n")
-    # Aqui se llama directamente al metodo de transcripcion en paralelo
+    voice_msg=update.message.audio.get_file().download(custom_path=str(user_id[0])+".wav")
+    print("File Saved \n"
+          " Runing  transcription \n")
+    global aud
+    aud = Voice(voice_msg)
     update.message.reply_text('Recived!!',reply_markup=options_markup)
     return menu
 
-def search(update, context):
+def search_button(update, context):
     query = update.callback_query
     query.answer()
     query.edit_message_text(
-        'search!'
+        'Send me a word to find'
     )
+    return search_word
+    
+def search(update, context ):
+    phrase_start_times= aud.search_phrase(update.message.text)
+    update.message.reply_text(str(phrase_start_times))
     return ConversationHandler.END
 
-def resume(update, context):
+def resume_button(update, context):
     query = update.callback_query
     query.answer()
     query.edit_message_text(
-        'search!'
+        'Resume'
     )
     return ConversationHandler.END
 
 def to_text(update, context):
     query = update.callback_query
     query.answer()
+    text=aud.audio_to_text()
     query.edit_message_text(
-        'Transcription of all'
+        str(text)
     )
+    
     return ConversationHandler.END
 
 def error(update, context):
@@ -120,10 +131,13 @@ def main():
                 MessageHandler( Filters.voice , save_voice)
             ],
            menu: [
-                CallbackQueryHandler(search, pattern='search'),
-                CallbackQueryHandler(resume, pattern='resume'), 
+                CallbackQueryHandler(search_button, pattern='search'),
+                CallbackQueryHandler(resume_button, pattern='resume'), 
                 CallbackQueryHandler(to_text, pattern='to_text'),       
             ],
+            search_word:[
+                MessageHandler( Filters.text , save_audio)
+            ]
 
         },
         fallbacks=[],
