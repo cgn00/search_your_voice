@@ -94,7 +94,7 @@ def resume_button(update, context):
     query.edit_message_text(
         'Resume',reply_markup=options_markup
     )
-    return ConversationHandler.END
+    return menu
 
 def to_text(update, context):
     query = update.callback_query
