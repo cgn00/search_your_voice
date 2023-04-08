@@ -23,6 +23,7 @@ options1 = [
     [InlineKeyboardButton("Search", callback_data='search'),
      InlineKeyboardButton("Resume", callback_data='resume'),
      InlineKeyboardButton("All2text", callback_data='to_text')],
+     [InlineKeyboardButton("Exit❌", callback_data='exit')]
 ]
 options_markup= InlineKeyboardMarkup(options1)
 
@@ -78,9 +79,10 @@ def save_audio(update, context):
 def search_button(update, context):
     query = update.callback_query
     query.answer()
-    query.edit_message_text(
-        'Send me a word to find'
-    )
+    context.bot.send_message(user_id[0],'Send me a word to find')
+    # query.edit_message_text(
+    #     'Send me a word to find'
+    # )
     return search_word
     
 def search(update, context ):
@@ -91,20 +93,24 @@ def search(update, context ):
 def resume_button(update, context):
     query = update.callback_query
     query.answer()
-    query.edit_message_text(
-        'Resume',reply_markup=options_markup
-    )
+    context.bot.send_message(user_id[0],"Resume",reply_markup=options_markup)
+    # query.edit_message_text(
+    #     'Resume',reply_markup=options_markup
+    # )
     return menu
 
 def to_text(update, context):
     query = update.callback_query
     query.answer()
     text=aud.audio_to_text()
-    query.edit_message_text(
-        str(text),reply_markup=options_markup
-    )
+    context.bot.send_message(user_id[0],str(text),reply_markup=options_markup)
+    # query.edit_message_text(
+    #     str(text),reply_markup=options_markup
+    # )
     return menu
 
+def exit_button(update,context):
+  return ConversationHandler.END
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
@@ -132,7 +138,8 @@ def main():
            menu: [
                 CallbackQueryHandler(search_button, pattern='search'),
                 CallbackQueryHandler(resume_button, pattern='resume'), 
-                CallbackQueryHandler(to_text, pattern='to_text'),       
+                CallbackQueryHandler(to_text, pattern='to_text'),    
+                CallbackQueryHandler(exit_button, pattern='exit'),   
             ],
             search_word:[
                 MessageHandler( Filters.text , search)
