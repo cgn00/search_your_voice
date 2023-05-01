@@ -25,6 +25,3 @@ Start a conversation with the bot on Telegram and send an audio file. The bot wi
 
 Use the inline keyboard options to search for specific phrases, get a resume of the audio or convert it to text.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
