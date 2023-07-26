@@ -25,3 +25,4 @@ Start a conversation with the bot on Telegram and send an audio file. The bot wi
 
 Use the inline keyboard options to search for specific phrases, get a resume of the audio or convert it to text.
 
+![Running the bot](image.png)
